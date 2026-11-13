@@ -75,8 +75,11 @@ class BaseEntity:
     def __repr__(self):
         return str(self)
 
+    def as_dict(self):
+        return {k: v for k, v in self.__dict__.items() if not k.startswith('_')}
+
     def get_field(self, field_name):
-        return self.custom_fields_values.get(field_name, {}).get('value')
+        return (self.custom_fields_values or {}).get(field_name, {}).get('value')
 
     def set_field(self, field_name, field_value, field_id=None):
         custom_field = self.custom_fields_values.get(field_name)
